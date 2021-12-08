@@ -8,12 +8,6 @@ import (
 	"log"
 )
 
-// // http.Client to reuse throughout methods.
-// func HttpClient() *http.Client {
-// 	client := &http.Client{Timeout: 10 * time.Second}
-// 	return client
-// }
-
 func fetchData(url string, id string) {
 	var request account.Request
 	request.Host = url
