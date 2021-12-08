@@ -26,11 +26,12 @@ func CreateClient() *Client {
 func (c *Client) Get(url string) ([]byte, error) {
 	// HTTP method GET to make request
 	req, err := http.NewRequest(http.MethodGet, url, nil)
+
+	// Handle Error
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	// Handle Error
 	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
 		log.Fatalln(err)
