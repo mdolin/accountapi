@@ -5,7 +5,7 @@
 package model
 
 type AccountData struct {
-	Data []struct {
+	Data struct {
 		Attributes     *AccountAttributes `json:"attributes,omitempty"`
 		ID             string             `json:"id,omitempty"`
 		OrganisationID string             `json:"organisation_id,omitempty"`

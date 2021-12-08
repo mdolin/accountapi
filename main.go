@@ -1,8 +1,8 @@
 package main
 
 import (
+	"accountapi/account"
 	"accountapi/client"
-	"accountapi/model"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -14,15 +14,18 @@ import (
 // 	return client
 // }
 
-func fetchData(url string) {
-	client := client.CreateClient()
-	getData, err := client.Get(url)
-	fmt.Println(err)
+func fetchData(url string, id string) {
+	var request account.Request
+	request.Host = url
+	request.AccountID = id
 
-	// Pretty-printing
-	var responseObject model.AccountData
-	json.Unmarshal(getData, &responseObject)
-	f, _ := json.MarshalIndent(responseObject, "", " ")
+	response, err := account.AccountFetch(&request)
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	f, _ := json.MarshalIndent(response, "", " ")
 	log.Println(string(f))
 }
 
@@ -52,9 +55,11 @@ func deleteData(url string, id string) {
 }
 
 func main() {
-	url := "http://0.0.0.0:8080/v1/organisation/accounts"
+	namespace := "/v1/organisation/accounts"
+	url := "http://0.0.0.0:8080"
+	id := "123e4567-e89b-12d3-a456-426614174111"
 
-	fetchData(url)
+	fetchData(url+namespace, id)
 
 	// data := `{
 	// 	"data": {
@@ -77,8 +82,6 @@ func main() {
 	//   }`
 
 	// createData(url, data)
-
-	// id := "123e4567-e89b-12d3-a456-426614174007"
 
 	// deleteData(url, id)
 
