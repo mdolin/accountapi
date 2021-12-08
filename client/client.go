@@ -42,7 +42,7 @@ func (c *Client) Get(url string) ([]byte, error) {
 	// Read the response body
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
 	return body, err
