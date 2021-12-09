@@ -7,12 +7,12 @@ import (
 	"errors"
 )
 
-type Request struct {
+type RequestFetch struct {
 	Host      string
 	AccountID string
 }
 
-func AccountFetch(request *Request) (*model.AccountData, error) {
+func AccountFetch(request *RequestFetch) (*model.AccountData, error) {
 	if request.AccountID == "" {
 		return nil, errors.New("Account ID required")
 	}
@@ -22,14 +22,14 @@ func AccountFetch(request *Request) (*model.AccountData, error) {
 	client := client.CreateClient()
 
 	// Get data
-	byteData, err := client.Get(endpoint)
+	data, err := client.Get(endpoint)
 
 	if err != nil {
 		return nil, err
 	}
 
 	var response model.AccountData
-	json.Unmarshal(byteData, &response)
+	json.Unmarshal(data, &response)
 
 	return &response, err
 }

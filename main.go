@@ -9,7 +9,7 @@ import (
 )
 
 func fetchData(url string, id string) {
-	var request account.Request
+	var request account.RequestFetch
 	request.Host = url
 	request.AccountID = id
 
@@ -38,14 +38,21 @@ func createData(url string, data string) {
 }
 
 func deleteData(url string, id string) {
-	toDelete := url + "/" + id + "?version=0"
+	var request account.RequestDelete
+	request.Host = url
+	request.AccountID = id
+	request.Version = "?version=0"
 
-	client := client.CreateClient()
-	d, err := client.Delete(toDelete)
+	response, err := account.AccountDelete(&request)
 
-	fmt.Println((err))
-	deletedData := string(d)
-	log.Printf(deletedData)
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	if response == 204 {
+		log.Println(response, "Request succeeded")
+	}
+
 }
 
 func main() {
@@ -53,7 +60,7 @@ func main() {
 	url := "http://0.0.0.0:8080"
 	id := "123e4567-e89b-12d3-a456-426614174111"
 
-	fetchData(url+namespace, id)
+	// fetchData(url+namespace, id)
 
 	// data := `{
 	// 	"data": {
@@ -77,6 +84,6 @@ func main() {
 
 	// createData(url, data)
 
-	// deleteData(url, id)
+	deleteData(url+namespace, id)
 
 }

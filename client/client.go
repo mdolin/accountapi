@@ -73,7 +73,7 @@ func (c *Client) Post(url string, data []byte) ([]byte, error) {
 	return body, err
 }
 
-func (c *Client) Delete(url string) ([]byte, error) {
+func (c *Client) Delete(url string) (int, error) {
 	// HTTP method DELETE to make request
 	req, err := http.NewRequest(http.MethodDelete, url, nil)
 
@@ -89,11 +89,5 @@ func (c *Client) Delete(url string) ([]byte, error) {
 
 	defer resp.Body.Close()
 
-	// Read the response body
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	return body, err
+	return resp.StatusCode, err
 }
