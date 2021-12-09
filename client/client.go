@@ -48,7 +48,7 @@ func (c *Client) Get(url string) ([]byte, error) {
 	return body, err
 }
 
-func (c *Client) Post(url string, data []byte) ([]byte, error) {
+func (c *Client) Post(url string, data []byte) (int, []byte, error) {
 	// HTTP method POST to make request
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(data))
 
@@ -70,7 +70,7 @@ func (c *Client) Post(url string, data []byte) ([]byte, error) {
 		log.Fatalln(err)
 	}
 
-	return body, err
+	return resp.StatusCode, body, err
 }
 
 func (c *Client) Delete(url string) (int, error) {
