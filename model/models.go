@@ -31,24 +31,3 @@ type AccountAttributes struct {
 	Status                  *string  `json:"status,omitempty"`
 	Switched                *bool    `json:"switched,omitempty"`
 }
-
-// type AccountData struct {
-// 	Data []struct {
-// 		Attributes struct {
-// 			AccountClassification string   `json:"account_classification"`
-// 			AccountNumber         string   `json:"account_number"`
-// 			AlternativeNames      []string `json:"alternative_names"`
-// 			BankID                string   `json:"bank_id"`
-// 			BankIDCode            string   `json:"bank_id_code"`
-// 			BaseCurrency          string   `json:"base_currency"`
-// 			Bic                   string   `json:"bic"`
-// 			Country               string   `json:"country"`
-// 			Iban                  string   `json:"iban"`
-// 			Name                  []string `json:"name"`
-// 		} `json:"attributes"`
-// 		ID             string `json:"id"`
-// 		OrganisationID string `json:"organisation_id"`
-// 		Type           string `json:"type"`
-// 		Version        int    `json:"version"`
-// 	} `json:"data"`
-// }
