@@ -1,0 +1,19 @@
+{
+    "data": {
+      "id": "123e4567-e89b-12d3-a456-426614174123",
+      "organisation_id": "123e4567-e89b-12d3-a456-426614174123",
+      "type": "accounts",
+      "attributes": {
+         "country": "GB",
+          "base_currency": "GBP",
+          "bank_id": "400302",
+          "bank_id_code": "GBDSC",
+          "account_number": "10000004",
+          "customer_id": "234",
+          "iban": "GB28NWBK40030212764204",
+          "bic": "NWBKGB42",
+          "account_classification": "Personal",
+          "name": ["Burek"]
+      }
+    }
+  }
