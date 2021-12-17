@@ -69,12 +69,12 @@ func OpenFile() []byte {
 func main() {
 	namespace := "/v1/organisation/accounts"
 	url := "http://0.0.0.0:8080"
-	// id := "123e4567-e89b-12d3-a456-426614174123"
+	id := "123e4567-e89b-12d3-a456-426614174123"
 
-	// FetchData(url+namespace, id)
+	FetchData(url+namespace, id)
 
-	var data = OpenFile()
-	CreateData(url+namespace, data)
+	// var data = OpenFile()
+	// CreateData(url+namespace, data)
 
 	// DeleteData(url+namespace, id)
 

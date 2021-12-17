@@ -10,7 +10,7 @@ import (
 )
 
 type HttpClient interface {
-	Do(*http.Request) (*http.Response, error)
+	Do(req *http.Request) (*http.Response, error)
 }
 
 type Client struct {
