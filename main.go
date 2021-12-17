@@ -2,6 +2,7 @@ package main
 
 import (
 	"accountapi/account"
+	"accountapi/client"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -12,6 +13,7 @@ func FetchData(url string, id string) {
 	var request account.RequestFetch
 	request.Host = url
 	request.AccountID = id
+	request.Client = client.CreateClient()
 
 	response, err := account.AccountFetch(&request)
 
@@ -27,6 +29,7 @@ func CreateData(url string, data []byte) {
 	var request account.RequestCreate
 	request.Host = url
 	request.Data = data
+	request.Client = client.CreateClient()
 
 	response, err := account.AccountCreate(&request)
 
@@ -43,6 +46,7 @@ func DeleteData(url string, id string) {
 	request.Host = url
 	request.AccountID = id
 	request.Version = "?version=0"
+	request.Client = client.CreateClient()
 
 	err := account.AccountDelete(&request)
 

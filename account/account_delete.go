@@ -10,6 +10,7 @@ type RequestDelete struct {
 	Host      string
 	AccountID string
 	Version   string
+	Client    *client.Client
 }
 
 func AccountDelete(request *RequestDelete) error {
@@ -19,11 +20,8 @@ func AccountDelete(request *RequestDelete) error {
 
 	endpoint := request.Host + "/" + request.AccountID + request.Version
 
-	// Create client
-	client := client.CreateClient()
-
 	// Delete data
-	status, err := client.Delete(endpoint)
+	status, err := request.Client.Delete(endpoint)
 
 	if err != nil {
 		return err

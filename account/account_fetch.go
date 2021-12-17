@@ -10,6 +10,7 @@ import (
 type RequestFetch struct {
 	Host      string
 	AccountID string
+	Client    *client.Client
 }
 
 func AccountFetch(request *RequestFetch) (*model.AccountData, error) {
@@ -19,10 +20,9 @@ func AccountFetch(request *RequestFetch) (*model.AccountData, error) {
 
 	endpoint := request.Host + "/" + request.AccountID
 	// Create client
-	client := client.CreateClient()
 
 	// Get data
-	data, err := client.Get(endpoint)
+	data, err := request.Client.Get(endpoint)
 
 	if err != nil {
 		return nil, err

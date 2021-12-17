@@ -9,8 +9,9 @@ import (
 )
 
 type RequestCreate struct {
-	Host string
-	Data []byte
+	Host   string
+	Data   []byte
+	Client *client.Client
 }
 
 func AccountCreate(request *RequestCreate) (*model.AccountData, error) {
@@ -18,11 +19,8 @@ func AccountCreate(request *RequestCreate) (*model.AccountData, error) {
 		return nil, errors.New("Data required")
 	}
 
-	// Create client
-	client := client.CreateClient()
-
 	// Crete data
-	status, data, err := client.Post(request.Host, request.Data)
+	status, data, err := request.Client.Post(request.Host, request.Data)
 
 	if err != nil {
 		return nil, err
