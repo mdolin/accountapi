@@ -5,13 +5,11 @@ import (
 	"accountapi/model"
 	"encoding/json"
 	"errors"
-	"log"
 )
 
 type RequestCreate struct {
-	Host   string
-	Data   []byte
-	Client *client.Client
+	Host string
+	Data []byte
 }
 
 func AccountCreate(request *RequestCreate) (*model.AccountData, error) {
@@ -20,14 +18,10 @@ func AccountCreate(request *RequestCreate) (*model.AccountData, error) {
 	}
 
 	// Crete data
-	status, data, err := request.Client.Post(request.Host, request.Data)
+	data, err := client.Post(request.Host, request.Data)
 
 	if err != nil {
 		return nil, err
-	}
-
-	if status == 201 {
-		log.Println(status, "Create succeeded")
 	}
 
 	var response model.AccountData

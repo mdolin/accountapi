@@ -2,92 +2,94 @@ package client
 
 import (
 	"bytes"
+	"errors"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"time"
 )
 
-type HttpClient interface {
+type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
-type Client struct {
-	HTTPClient HttpClient
+var Client HTTPClient
+
+func init() {
+	Client = &http.Client{Timeout: 10 * time.Second}
 }
 
-func CreateClient() *Client {
-	return &Client{
-		HTTPClient: &http.Client{Timeout: 10 * time.Second},
-	}
-}
-
-func (c *Client) Get(url string) ([]byte, error) {
+func Get(url string) ([]byte, error) {
 	// HTTP method GET to make request
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 
 	// Handle Error
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
-	resp, err := c.HTTPClient.Do(req)
+	resp, err := Client.Do(req)
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
+	}
+
+	if resp.StatusCode > 299 {
+		return nil, errors.New(resp.Status)
 	}
 
 	defer resp.Body.Close()
 
 	// Read the response body
 	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
 
 	return body, err
 }
 
-func (c *Client) Post(url string, data []byte) (int, []byte, error) {
+func Post(url string, data []byte) ([]byte, error) {
 	// HTTP method POST to make request
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(data))
 
 	// Handle Error
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
-	resp, err := c.HTTPClient.Do(req)
+	resp, err := Client.Do(req)
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
+	}
+
+	if resp.StatusCode > 299 {
+		return nil, errors.New(resp.Status)
 	}
 
 	defer resp.Body.Close()
 
 	// Read the response body
 	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
 
-	return resp.StatusCode, body, err
+	return body, err
 }
 
-func (c *Client) Delete(url string) (int, error) {
+func Delete(url string) error {
 	// HTTP method DELETE to make request
 	req, err := http.NewRequest(http.MethodDelete, url, nil)
 
 	// Handle Error
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 
-	resp, err := c.HTTPClient.Do(req)
+	resp, err := Client.Do(req)
 	if err != nil {
-		log.Fatalln(err)
+		return err
+	}
+
+	if resp.StatusCode != 204 {
+		return errors.New(resp.Status)
 	}
 
 	defer resp.Body.Close()
 
-	return resp.StatusCode, err
+	return nil
 }
