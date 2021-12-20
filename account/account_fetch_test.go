@@ -15,7 +15,7 @@ func TestFetchAccountNoAccountID(t *testing.T) {
 
 	_, err := AccountFetch(&request)
 	if err == nil {
-		t.Errorf("We go unexpected error: %v", err.Error())
+		t.Errorf("Unexpected error: %v", err.Error())
 	}
 }
 
@@ -36,7 +36,7 @@ func TestFetchAccountNotFound(t *testing.T) {
 
 	_, err := AccountFetch(&request)
 	if err.Error() != "404 Not Found" {
-		t.Errorf("Unexpected error: got %v", err.Error())
+		t.Errorf("Unexpected error: %v", err.Error())
 	}
 }
 
@@ -82,7 +82,7 @@ func TestFetchAccount(t *testing.T) {
 	resp, err := AccountFetch(&request)
 
 	if err != nil {
-		t.Errorf("Oh snap, we got error: got %v", err.Error())
+		t.Errorf("Unexpected error: %v", err.Error())
 	}
 
 	// Test Key-Values
