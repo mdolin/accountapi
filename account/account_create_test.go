@@ -8,39 +8,41 @@ import (
 	"testing"
 )
 
-func TestAccountFetchNoAccountID(t *testing.T) {
-	var request RequestFetch
+func TestAccountCreateNoData(t *testing.T) {
+	var request RequestCreate
 	request.Host = "http://api/accounts"
-	request.AccountID = ""
+	request.Data = []byte("")
 
-	_, err := AccountFetch(&request)
+	_, err := AccountCreate(&request)
 	if err == nil {
 		t.Errorf("Unexpected error: %v", err.Error())
 	}
 }
 
-func TestAccountFetchNotFound(t *testing.T) {
+func TestAccountCreateFailed(t *testing.T) {
+
 	testServer := httptest.NewServer(
 		http.HandlerFunc(
 			func(
 				res http.ResponseWriter, req *http.Request) {
-				res.WriteHeader(404)
+				res.WriteHeader(409)
 			},
 		),
 	)
 	defer func() { testServer.Close() }()
 
-	var request RequestFetch
+	var request RequestCreate
 	request.Host = testServer.URL
-	request.AccountID = "123e4567-e89b-12d3-a456-426614174123"
+	request.Data = []byte("Test data")
 
-	_, err := AccountFetch(&request)
-	if err.Error() != "404 Not Found" {
+	_, err := AccountCreate(&request)
+
+	if err.Error() != "409 Conflict" {
 		t.Errorf("Unexpected error: %v", err.Error())
 	}
 }
 
-func TestAccountFetch(t *testing.T) {
+func TestAccountCreate(t *testing.T) {
 	body := `{
 		"data": {
 		  "id": "123e4567-e89b-12d3-a456-426614174123",
@@ -59,10 +61,14 @@ func TestAccountFetch(t *testing.T) {
 		  }
 		}
 	  }`
+
 	var expectedRes model.AccountData
 	json.Unmarshal([]byte(body), &expectedRes)
-
 	expectedBody := []byte(body)
+
+	var newAccount model.AccountData
+	json.Unmarshal([]byte(body), &newAccount)
+	newAccountBody := []byte(body)
 
 	testServer := httptest.NewServer(
 		http.HandlerFunc(
@@ -75,11 +81,11 @@ func TestAccountFetch(t *testing.T) {
 	)
 	defer func() { testServer.Close() }()
 
-	var request RequestFetch
+	var request RequestCreate
 	request.Host = testServer.URL
-	request.AccountID = "123e4567-e89b-12d3-a456-426614174123"
+	request.Data = newAccountBody
 
-	resp, err := AccountFetch(&request)
+	resp, err := AccountCreate(&request)
 
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err.Error())

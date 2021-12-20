@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestDeleteAccountNoAccountID(t *testing.T) {
+func TestAccountDeleteNoAccountID(t *testing.T) {
 	var request RequestDelete
 	request.Host = "http://api/accounts"
 	request.AccountID = ""
@@ -18,7 +18,7 @@ func TestDeleteAccountNoAccountID(t *testing.T) {
 	}
 }
 
-func TestDeleteAccountNotFound(t *testing.T) {
+func TestAccountDeleteNotFound(t *testing.T) {
 	testServer := httptest.NewServer(
 		http.HandlerFunc(
 			func(
@@ -40,7 +40,7 @@ func TestDeleteAccountNotFound(t *testing.T) {
 	}
 }
 
-func TestDeleteAccount(t *testing.T) {
+func TestAccountDelete(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		if len(req.URL.Query()) == 1 {
 			res.WriteHeader(204)
