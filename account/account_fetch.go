@@ -18,7 +18,6 @@ func AccountFetch(request *RequestFetch) (*model.AccountData, error) {
 	}
 
 	endpoint := request.Host + "/" + request.AccountID
-	// Create client
 
 	// Get data
 	data, err := client.Get(endpoint)
