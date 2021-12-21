@@ -89,7 +89,7 @@ func Delete(url string) error {
 		return errors.New(resp.Status)
 	}
 
-	defer resp.Body.Close()
+	// defer resp.Body.Close()
 
 	return nil
 }
