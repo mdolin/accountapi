@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"testing"
@@ -28,7 +29,6 @@ func init() {
 
 func TestGetOK(t *testing.T) {
 	url := "http://api/accounts"
-
 	expectedResponse := []byte("body")
 	r := ioutil.NopCloser(bytes.NewReader([]byte("body")))
 
@@ -54,7 +54,6 @@ func TestGetOK(t *testing.T) {
 
 func TestGetError(t *testing.T) {
 	url := "http://api/accounts"
-
 	expectedResponse := "404 Not Found"
 
 	DoFunc = func(*http.Request) (*http.Response, error) {
@@ -72,14 +71,33 @@ func TestGetError(t *testing.T) {
 	}
 
 	if err.Error() != expectedResponse {
-		t.Errorf("Status messages differ, got %v expected %v", err.Error(), expectedResponse)
+		t.Errorf("Error messages differ from expected, got %v expected %v", err.Error(), expectedResponse)
 	}
+}
+
+func TestGetDoError(t *testing.T) {
+	url := "http://api/accounts/ID"
+	expectedResponse := "Do method error"
+
+	DoFunc = func(*http.Request) (*http.Response, error) {
+		return nil, errors.New("Do method error")
+	}
+
+	res, err := Get(url)
+
+	if res != nil {
+		t.Errorf("Do method did not fail")
+	}
+
+	if err.Error() != expectedResponse {
+		t.Errorf("Error messages differ from expected, got %v expected %v", err.Error(), expectedResponse)
+	}
+
 }
 
 func TestPostOK(t *testing.T) {
 	url := "http://api/accounts"
 	data := []byte("body")
-
 	expectedResponse := []byte("body")
 	r := ioutil.NopCloser(bytes.NewReader([]byte("body")))
 
@@ -106,7 +124,6 @@ func TestPostOK(t *testing.T) {
 func TestPostError(t *testing.T) {
 	url := "http://api/accounts"
 	data := []byte("body")
-
 	expectedResponse := "500 Internal Server Error"
 
 	DoFunc = func(*http.Request) (*http.Response, error) {
@@ -124,8 +141,29 @@ func TestPostError(t *testing.T) {
 	}
 
 	if err.Error() != expectedResponse {
-		t.Errorf("Status messages differ, got %v expected %v", err.Error(), expectedResponse)
+		t.Errorf("Error messages differ from expected, got %v expected %v", err.Error(), expectedResponse)
 	}
+}
+
+func TestPostDoError(t *testing.T) {
+	url := "http://api/accounts"
+	data := []byte("body")
+	expectedResponse := "Do method error"
+
+	DoFunc = func(*http.Request) (*http.Response, error) {
+		return nil, errors.New("Do method error")
+	}
+
+	res, err := Post(url, data)
+
+	if res != nil {
+		t.Errorf("Do method did not fail")
+	}
+
+	if err.Error() != expectedResponse {
+		t.Errorf("Error messages differ from expected, got %v expected %v", err.Error(), expectedResponse)
+	}
+
 }
 
 func TestDeleteOK(t *testing.T) {
@@ -148,7 +186,6 @@ func TestDeleteOK(t *testing.T) {
 
 func TestDeleteError(t *testing.T) {
 	url := "http://api/accounts"
-
 	expectedResponse := "500 Internal Server Error"
 
 	DoFunc = func(*http.Request) (*http.Response, error) {
@@ -162,6 +199,22 @@ func TestDeleteError(t *testing.T) {
 	err := Delete(url)
 
 	if err.Error() != expectedResponse {
-		t.Errorf("Status messages differ, got %v expected %v", err.Error(), expectedResponse)
+		t.Errorf("Error messages differ from expected, got %v expected %v", err.Error(), expectedResponse)
 	}
+}
+
+func TestDelteDoError(t *testing.T) {
+	url := "http://api/accounts"
+	expectedResponse := "Do method error"
+
+	DoFunc = func(*http.Request) (*http.Response, error) {
+		return nil, errors.New("Do method error")
+	}
+
+	err := Delete(url)
+
+	if err.Error() != expectedResponse {
+		t.Errorf("Error messages differ from expected, got %v expected %v", err.Error(), expectedResponse)
+	}
+
 }
