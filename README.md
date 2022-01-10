@@ -19,19 +19,24 @@ This was my first project in the Go programming language, so I was using differe
 │   ├── account_delete_test.go
 │   ├── account_fetch.go
 │   └── account_fetch_test.go
+├── account_data.json
 ├── client
 │   ├── client.go
 │   └── client_test.go
 ├── docker-compose.yml
+├── go.mod
+├── LICENSE
 ├── main.go
 ├── model
 │   └── models.go
+├── README.md
 ├── scripts
 │   └── db
 │       └── 10-init.sql
 └── tests
     └── integrations
         └── account_test.go
+
 ```
 
 ## Requirements
@@ -40,7 +45,7 @@ To run the project and tests you will need
 * [Docker](https://www.docker.com/get-started)
 
 ## Examples
-Example for Create data assumes that data for account creating resides in the JSON format in the file located in the same directory as the main function.
+Example for Create data assumes that data for account creating resides in the JSON format in the file located in the same directory as the main function. In this project there is account_data.json
 
 ### Example for Fetch data
 
