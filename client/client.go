@@ -90,6 +90,7 @@ func Delete(url string) error {
 	}
 
 	// defer resp.Body.Close()
-
+	// If uncomment on go test we got runtime error: invalid memory address or nil pointer dereference
+	// My guess here is that something is not nil bfore closing response body.
 	return nil
 }
