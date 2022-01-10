@@ -1,15 +1,16 @@
-# Description
+## Description
 This is Form3 Take Home Exercise done as part of the hiring process written in Go Programming language. The goal was to write a client library in Go to access fake account API which is provided as a Docker container, implement the Create, Fetch, and Delete operations on the accounts resource with all testing.
 
-This was my first project in the Go programming language, so I was using different resources to learn Go and write this client library. Resources are listed below in the [Useful resources] (#useful-resources) section.
+This was my first project in the Go programming language, so I was using different resources to learn Go and write this client library. Resources are listed below in the [Useful resources](#useful-resources) section.
 
-# Main bits of the project
+## Main bits of the project
 * The HTTP client
 * Create, Fetch, and Delete operations
 * Unit tests
 * Integration tests
 
-# Structure of the project
+## Structure of the project
+```
 .
 ├── account
 │   ├── account_create.go
@@ -31,16 +32,17 @@ This was my first project in the Go programming language, so I was using differe
 └── tests
     └── integrations
         └── account_test.go
+```
 
-# Requirements
+## Requirements
 To run the project and tests you will need
-* [Go Programming language] (https://go.dev/doc/install)
-* [Docker] (https://www.docker.com/get-started)
+* [Go Programming language](https://go.dev/doc/install)
+* [Docker](https://www.docker.com/get-started)
 
-# Examples
+## Examples
 Example for Create data assumes that data for account creating resides in the JSON format in the file located in the same directory as the main function.
 
-## Example for Fetch data
+### Example for Fetch data
 
 ```Go
 package main
@@ -77,7 +79,7 @@ func main() {
 }
 ```
 
-## Example for Create data
+### Example for Create data
 ```Go
 package main
 
@@ -128,7 +130,7 @@ func main() {
 }
 ```
 
-## Example for Delete data
+### Example for Delete data
 ```Go
 package main
 
@@ -163,7 +165,7 @@ func main() {
 }
 ```
 
-# Testing
+## Testing
 To run client tests
 
 ```
@@ -184,7 +186,7 @@ cd tests/integration
 go test -v
 ```
 
-# Useful resources
+## Useful resources
 * https://go.dev/doc/tutorial/
 * https://pkg.go.dev/std
 * https://www.practical-go-lessons.com/
