@@ -47,6 +47,12 @@ To run the project and tests you will need
 ## Examples
 Examples assume that the code lives on a local computer. Example for Create data uses the data for account creating in the JSON format in the file located in the same directory as the main function. In this project there is account_data.json
 
+First, use the docker-compose file to run the form3 API.
+
+```
+docker-compose up
+```
+
 ### Example for Fetch data
 
 ```Go
