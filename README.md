@@ -45,7 +45,7 @@ To run the project and tests you will need
 * [Docker](https://www.docker.com/get-started)
 
 ## Examples
-Example for Create data assumes that data for account creating resides in the JSON format in the file located in the same directory as the main function. In this project there is account_data.json
+Examples assume that the code lives on a local computer. Example for Create data uses the data for account creating in the JSON format in the file located in the same directory as the main function. In this project there is account_data.json
 
 ### Example for Fetch data
 
