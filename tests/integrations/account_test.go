@@ -28,7 +28,7 @@ func TestAccountCreateSuccessful(t *testing.T) {
 	  }`
 
 	var request account.RequestCreate
-	request.Host = "http://0.0.0.0:8080/v1/organisation/accounts"
+	request.Host = "http://accountapi:8080/v1/organisation/accounts"
 	request.Data = []byte(account_data)
 
 	resp, err := account.AccountCreate(&request)
@@ -107,7 +107,7 @@ func TestAccountCreateAlreadyExist(t *testing.T) {
 	  }`
 
 	var request account.RequestCreate
-	request.Host = "http://0.0.0.0:8080/v1/organisation/accounts"
+	request.Host = "http://accountapi:8080/v1/organisation/accounts"
 	request.Data = []byte(account_data)
 
 	resp, err := account.AccountCreate(&request)
@@ -123,7 +123,7 @@ func TestAccountCreateAlreadyExist(t *testing.T) {
 
 func TestAccountFetchSuccessful(t *testing.T) {
 	var request account.RequestFetch
-	request.Host = "http://0.0.0.0:8080/v1/organisation/accounts"
+	request.Host = "http://accountapi:8080/v1/organisation/accounts"
 	request.AccountID = "123e4567-e89b-12d3-a456-426614174123"
 
 	resp, err := account.AccountFetch(&request)
@@ -139,7 +139,7 @@ func TestAccountFetchSuccessful(t *testing.T) {
 
 func TestAccountFetchNotFound(t *testing.T) {
 	var request account.RequestFetch
-	request.Host = "http://0.0.0.0:8080/v1/organisation/accounts"
+	request.Host = "http://accountapi:8080/v1/organisation/accounts"
 	request.AccountID = "123e4567-e89b-12d3-a456-426614174000"
 
 	resp, err := account.AccountFetch(&request)
@@ -154,7 +154,7 @@ func TestAccountFetchNotFound(t *testing.T) {
 
 func TestAccountDeleteSuccessful(t *testing.T) {
 	var request account.RequestDelete
-	request.Host = "http://0.0.0.0:8080/v1/organisation/accounts"
+	request.Host = "http://accountapi:8080/v1/organisation/accounts"
 	request.AccountID = "123e4567-e89b-12d3-a456-426614174123"
 	request.Version = "?version=0"
 
@@ -167,7 +167,7 @@ func TestAccountDeleteSuccessful(t *testing.T) {
 
 func TestAccountDeleteNotFound(t *testing.T) {
 	var request account.RequestDelete
-	request.Host = "http://0.0.0.0:8080/v1/organisation/accounts"
+	request.Host = "http://accountapi:8080/v1/organisation/accounts"
 	request.AccountID = "123e4567-e89b-12d3-a456-426614174000"
 	request.Version = "?version=0"
 
