@@ -43,6 +43,7 @@ This was my first project in the Go programming language, so I was using differe
 To run the project and tests you will need
 * [Go Programming language](https://go.dev/doc/install)
 * [Docker](https://www.docker.com/get-started)
+* [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Examples
 Examples assume that the code lives on a local computer. Example for Create data uses the data for account creating in the JSON format in the file located in the same directory as the main function. In this project there is account_data.json
@@ -177,21 +178,25 @@ func main() {
 ```
 
 ## Testing
-To run client tests
+Unit and integration tests are run when docker-compose up is executed
+
+### Run Unit tests
+To run account unit tests
 
 ```
 cd account
 go test -v
 ```
 
-To run HTTP client tests
+To run HTTP client unit tests
 
 ```
 cd client
 go test -v
 ```
+### Run Integration tests
+To run integration tests on the host machine change URI variable in `tests/integrations/account_test.go` from `http://accountapi:8080/` to `http://localhost:8080/`
 
-To run integration tests
 ```
 cd tests/integration
 go test -v
