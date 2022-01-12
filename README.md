@@ -180,7 +180,7 @@ func main() {
 ## Testing
 Unit and integration tests are run when `docker-compose up` is executed
 
-### Run Unit tests
+### Run Unit tests separated
 To run account unit tests
 
 ```
@@ -194,7 +194,7 @@ To run HTTP client unit tests
 cd client
 go test -v
 ```
-### Run Integration tests
+### Run Integration tests separated
 To run integration tests on the host machine change URI variable in `tests/integrations/account_test.go` from `http://accountapi:8080/` to `http://localhost:8080/`
 
 ```
