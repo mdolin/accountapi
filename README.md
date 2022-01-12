@@ -178,7 +178,7 @@ func main() {
 ```
 
 ## Testing
-Unit and integration tests are run when docker-compose up is executed
+Unit and integration tests are run when `docker-compose up` is executed
 
 ### Run Unit tests
 To run account unit tests
