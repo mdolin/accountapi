@@ -54,6 +54,8 @@ First, use the docker-compose file to run the Form3 API.
 docker-compose up
 ```
 
+Then modify the main package accordingly.
+
 ### Example for Fetch data
 
 ```Go
