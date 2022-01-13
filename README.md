@@ -46,7 +46,7 @@ To run the project and tests you will need
 * [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Examples
-Examples assume that the code lives on a local computer. Example for Create data uses the data for account creating in the JSON format in the file located in the same directory as the main function. In this project there is account_data.json
+Example for Create account uses the data in the JSON format in the file located in the same directory as the main package. In this project there is account_data.json
 
 First, use the docker-compose file to run the Form3 API.
 
@@ -56,7 +56,7 @@ docker-compose up
 
 Then modify the main package accordingly.
 
-### Example for Fetch data
+### Example for Fetch account
 
 ```Go
 package main
@@ -93,7 +93,7 @@ func main() {
 }
 ```
 
-### Example for Create data
+### Example for Create account
 ```Go
 package main
 
@@ -144,7 +144,7 @@ func main() {
 }
 ```
 
-### Example for Delete data
+### Example for Delete account
 ```Go
 package main
 
