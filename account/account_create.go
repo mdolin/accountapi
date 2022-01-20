@@ -4,28 +4,33 @@ import (
 	"accountapi/client"
 	"accountapi/model"
 	"encoding/json"
-	"errors"
 )
 
 type RequestCreate struct {
 	Host string
-	Data []byte
+	Data *model.AccountData `json:"data"`
 }
 
 func AccountCreate(request *RequestCreate) (*model.AccountData, error) {
-	if len(request.Data) == 0 {
-		return nil, errors.New("Data required")
+	// Crete data
+	body, err := json.Marshal(request.Data)
+	if err != nil {
+		return nil, err
 	}
 
-	// Crete data
-	data, err := client.Post(request.Host, request.Data)
+	// Post data
+	data, err := client.Post(request.Host, body)
 
 	if err != nil {
 		return nil, err
 	}
 
 	var response model.AccountData
-	json.Unmarshal(data, &response)
+	er := json.Unmarshal(data, &response)
+
+	if er != nil {
+		return nil, er
+	}
 
 	return &response, err
 }

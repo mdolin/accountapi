@@ -8,17 +8,6 @@ import (
 	"testing"
 )
 
-func TestAccountCreateNoData(t *testing.T) {
-	var request RequestCreate
-	request.Host = "http://api/accounts"
-	request.Data = []byte("")
-
-	_, err := AccountCreate(&request)
-	if err == nil {
-		t.Errorf("Unexpected error: %v", err.Error())
-	}
-}
-
 func TestAccountCreateFailed(t *testing.T) {
 
 	testServer := httptest.NewServer(
@@ -31,10 +20,12 @@ func TestAccountCreateFailed(t *testing.T) {
 	)
 	defer func() { testServer.Close() }()
 
+	var newAccount model.AccountData
+	newAccount.Data.ID = "123e4567-e89b-12d3-a456-426614174111"
+
 	var request RequestCreate
 	request.Host = testServer.URL
-	request.Data = []byte("Test data")
-
+	request.Data = &newAccount
 	_, err := AccountCreate(&request)
 
 	if err.Error() != "409 Conflict" {
@@ -64,18 +55,16 @@ func TestAccountCreate(t *testing.T) {
 
 	var expectedRes model.AccountData
 	json.Unmarshal([]byte(body), &expectedRes)
-	expectedBody := []byte(body)
 
 	var newAccount model.AccountData
 	json.Unmarshal([]byte(body), &newAccount)
-	newAccountBody := []byte(body)
 
 	testServer := httptest.NewServer(
 		http.HandlerFunc(
 			func(
 				res http.ResponseWriter, req *http.Request) {
 				res.WriteHeader(200)
-				res.Write(expectedBody)
+				res.Write([]byte(body))
 			},
 		),
 	)
@@ -83,7 +72,7 @@ func TestAccountCreate(t *testing.T) {
 
 	var request RequestCreate
 	request.Host = testServer.URL
-	request.Data = newAccountBody
+	request.Data = &newAccount
 
 	resp, err := AccountCreate(&request)
 

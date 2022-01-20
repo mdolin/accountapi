@@ -27,7 +27,11 @@ func AccountFetch(request *RequestFetch) (*model.AccountData, error) {
 	}
 
 	var response model.AccountData
-	json.Unmarshal(data, &response)
+	er := json.Unmarshal(data, &response)
+
+	if er != nil {
+		return nil, er
+	}
 
 	return &response, err
 }
