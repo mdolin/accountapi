@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-const URL = "http://0.0.0.0:8080/"
+const URL = "http://accountapi:8080/"
 
 func AccountCreate(data string) (*model.AccountData, error) {
 	var newAccount model.AccountData
