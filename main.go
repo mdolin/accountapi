@@ -2,6 +2,7 @@ package main
 
 import (
 	"accountapi/account"
+	"accountapi/model"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -23,7 +24,7 @@ func FetchData(url string, id string) {
 	log.Println(string(f))
 }
 
-func CreateData(url string, data []byte) {
+func CreateData(url string, data *model.AccountData) {
 	var request account.RequestCreate
 	request.Host = url
 	request.Data = data
@@ -51,7 +52,7 @@ func DeleteData(url string, id string) {
 	}
 }
 
-func OpenFile() []byte {
+func OpenFile() *model.AccountData {
 	jsonFile, err := os.Open("account_data.json")
 
 	if err != nil {
@@ -63,7 +64,13 @@ func OpenFile() []byte {
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	return byteValue
+	var accountData model.AccountData
+	er := json.Unmarshal([]byte(byteValue), &accountData)
+	if er != nil {
+		log.Println(er)
+	}
+
+	return &accountData
 }
 
 func main() {

@@ -105,7 +105,7 @@ import (
 	"os"
 )
 
-func CreateData(url string, data []byte) {
+func CreateData(url string, data *model.AccountData) {
 	var request account.RequestCreate
 	request.Host = url
 	request.Data = data
@@ -120,7 +120,7 @@ func CreateData(url string, data []byte) {
 	log.Println(string(f))
 }
 
-func OpenFile() []byte {
+func OpenFile() *model.AccountData {
 	jsonFile, err := os.Open("account_data.json")
 
 	if err != nil {
@@ -132,7 +132,13 @@ func OpenFile() []byte {
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	return byteValue
+	var accountData model.AccountData
+	er := json.Unmarshal([]byte(byteValue), &accountData)
+	if er != nil {
+		log.Println(er)
+	}
+
+	return &accountData
 }
 
 func main() {
@@ -210,4 +216,5 @@ go test -v
 * https://www.practical-go-lessons.com/
 * https://blog.logrocket.com/making-http-requests-in-go/
 * https://blog.alexellis.io/golang-writing-unit-tests/
+* https://www.sohamkamani.com/golang/json/
 * https://mholt.github.io/json-to-go/
