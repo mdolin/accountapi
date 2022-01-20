@@ -7,7 +7,31 @@ import (
 	"testing"
 )
 
-const URL = "http://accountapi:8080/"
+const URL = "http://0.0.0.0:8080/"
+
+func AccountCreate(data string) (*model.AccountData, error) {
+	var newAccount model.AccountData
+	json.Unmarshal([]byte(data), &newAccount)
+
+	var request account.RequestCreate
+	request.Host = URL + "v1/organisation/accounts"
+	request.Data = &newAccount
+
+	resp, err := account.AccountCreate(&request)
+
+	return resp, err
+}
+
+func AccountDelete(id string) error {
+	var request account.RequestDelete
+	request.Host = URL + "v1/organisation/accounts"
+	request.AccountID = id
+	request.Version = "?version=0"
+
+	err := account.AccountDelete(&request)
+
+	return err
+}
 
 func TestAccountCreateSuccessful(t *testing.T) {
 	account_data := `{
@@ -29,11 +53,7 @@ func TestAccountCreateSuccessful(t *testing.T) {
 		}
 	  }`
 
-	var request account.RequestCreate
-	request.Host = URL + "v1/organisation/accounts"
-	request.Data = []byte(account_data)
-
-	resp, err := account.AccountCreate(&request)
+	resp, err := AccountCreate(account_data)
 
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err.Error())
@@ -108,11 +128,7 @@ func TestAccountCreateAlreadyExist(t *testing.T) {
 		}
 	  }`
 
-	var request account.RequestCreate
-	request.Host = URL + "v1/organisation/accounts"
-	request.Data = []byte(account_data)
-
-	resp, err := account.AccountCreate(&request)
+	resp, err := AccountCreate(account_data)
 
 	if resp != nil {
 		t.Errorf("Existing Account ID")
@@ -121,9 +137,35 @@ func TestAccountCreateAlreadyExist(t *testing.T) {
 	if err != nil && err.Error() != "409 Conflict" {
 		t.Errorf("Unexpected error, got %v expected %v", err.Error(), "409 Conflict")
 	}
+
+	AccountDelete("123e4567-e89b-12d3-a456-426614174123")
 }
 
 func TestAccountFetchSuccessful(t *testing.T) {
+	account_data := `{
+		"data": {
+		  "id": "123e4567-e89b-12d3-a456-426614174123",
+		  "organisation_id": "123e4567-e89b-12d3-a456-426614174123",
+		  "type": "accounts",
+		  "attributes": {
+			 "country": "GB",
+			  "base_currency": "GBP",
+			  "bank_id": "400302",
+			  "bank_id_code": "GBDSC",
+			  "account_number": "10000004",
+			  "iban": "GB28NWBK40030212764204",
+			  "bic": "NWBKGB42",
+			  "account_classification": "Personal",
+			  "name": ["TestName"]
+		  }
+		}
+	  }`
+
+	_, e := AccountCreate(account_data)
+	if e != nil {
+		t.Errorf("Unexpected error")
+	}
+
 	var request account.RequestFetch
 	request.Host = URL + "v1/organisation/accounts"
 	request.AccountID = "123e4567-e89b-12d3-a456-426614174123"
@@ -137,6 +179,8 @@ func TestAccountFetchSuccessful(t *testing.T) {
 	if resp.Data.ID != "123e4567-e89b-12d3-a456-426614174123" {
 		t.Errorf("Wrong ID: got %v expected %v", resp.Data.ID, "123e4567-e89b-12d3-a456-426614174123")
 	}
+
+	AccountDelete("123e4567-e89b-12d3-a456-426614174123")
 }
 
 func TestAccountFetchNotFound(t *testing.T) {
@@ -155,6 +199,30 @@ func TestAccountFetchNotFound(t *testing.T) {
 }
 
 func TestAccountDeleteSuccessful(t *testing.T) {
+	account_data := `{
+		"data": {
+		  "id": "123e4567-e89b-12d3-a456-426614174123",
+		  "organisation_id": "123e4567-e89b-12d3-a456-426614174123",
+		  "type": "accounts",
+		  "attributes": {
+			 "country": "GB",
+			  "base_currency": "GBP",
+			  "bank_id": "400302",
+			  "bank_id_code": "GBDSC",
+			  "account_number": "10000004",
+			  "iban": "GB28NWBK40030212764204",
+			  "bic": "NWBKGB42",
+			  "account_classification": "Personal",
+			  "name": ["TestName"]
+		  }
+		}
+	  }`
+
+	_, e := AccountCreate(account_data)
+	if e != nil {
+		t.Errorf("Unexpected error")
+	}
+
 	var request account.RequestDelete
 	request.Host = URL + "v1/organisation/accounts"
 	request.AccountID = "123e4567-e89b-12d3-a456-426614174123"
