@@ -1,5 +1,5 @@
-## Description (name: Miha Dolinar)
-This is Form3 Take Home Exercise done as part of the hiring process written in Go Programming language. The goal was to write a client library in Go to access fake account API which is provided as a Docker container, implement the Create, Fetch, and Delete operations on the accounts resource with all the testing.
+## Description
+The goal was to write a client library in Go to access fake account API which is provided as a Docker container, implement the Create, Fetch, and Delete operations on the accounts resource with all the testing.
 
 This was my first project in the Go programming language, so I was using different resources to learn Go and write this client library. Resources are listed below in the [Useful resources](#useful-resources) section.
 
