@@ -26,10 +26,10 @@ func AccountCreate(request *RequestCreate) (*model.AccountData, error) {
 	}
 
 	var response model.AccountData
-	er := json.Unmarshal(data, &response)
+	err = json.Unmarshal(data, &response)
 
-	if er != nil {
-		return nil, er
+	if err != nil {
+		return nil, err
 	}
 
 	return &response, err
